@@ -9,14 +9,14 @@
 </HEAD>
 <BODY>
     <!-- Header iframe -->
-    <IFRAME SRC="/web/header.html" CLASS="header-iframe" FRAMEBORDER="0" ID="headerFrame"></IFRAME>
+    <IFRAME SRC="web/header.html" CLASS="header-iframe" FRAMEBORDER="0" ID="headerFrame"></IFRAME>
 
     <!-- Barra de separación -->
     <DIV CLASS="header-separator"></DIV>
 
     <!-- Contenedor del contenido -->
     <DIV CLASS="content-wrapper">
-        <IFRAME SRC="/web/contenido.html" CLASS="content-iframe" FRAMEBORDER="0" ID="contentFrame"></IFRAME>
+        <IFRAME SRC="web/contenido.html" CLASS="content-iframe" FRAMEBORDER="0" ID="contentFrame"></IFRAME>
     </DIV>
 
     <SCRIPT>
@@ -31,7 +31,7 @@
             if (event.data === 'contacto') {
                 loadContent('contacto.html');
             } else if (event.data === 'sobrenosotros') {
-                loadContent('/web/sobrenosotros.html');
+                loadContent('web/sobrenosotros.html');
             } else if (event.data === 'spoilers') {
                 loadContent('spoilers.html');
             }
