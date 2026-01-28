@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Contacto</title>
+<style>
+    body {
+        margin: 0;
+        padding: 2rem;
+        background-color: #ffffff;
+        font-family: Verdana, sans-serif;
+        color: #000000;
+        position: relative;
+    }
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 2rem;
+    }
+
+    .top-bar img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .top-bar span {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .server-img {
+        display: block;
+        margin: 1rem auto 0 auto;
+        max-width: 400px;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .discord-contact {
+        text-align: center;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    .botonActivo {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 2px solid #27ae60;
+        background-color: #2ecc71;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .botonActivo img {
+        width: 30px;
+        height: 30px;
+    }
+</style>
+</head>
+<body>
+
+    <div class="botonActivo" id="volverBtn">
+        <img src="/accesorios/volver.png" alt="Volver">
+    </div>
+
+    <div class="top-bar">
+        <img src="/errores/gira.gif" alt="Cargando..." id="loadingIcon" />
+
+        <span>Contacto</span>
+
+        <img src="/errores/gira.gif" alt="Imagen cargando" id="mainImage" />
+    </div>
+
+    <div class="discord-contact">
+        Contacto de Discord: RUBENPRO19M
+    </div>
+
+    <img src="/errores/santapola.png" alt="Servidor Discord" class="server-img" />
+
+<script>
+    const finalImgSrc = "/errores/image.png";
+    const mainImage = document.getElementById('mainImage');
+
+    const img = new Image();
+    img.src = finalImgSrc;
+    img.onload = () => {
+        mainImage.src = finalImgSrc;
+    };
+
+    // introducir componente => para el puto Rubon.
+    const volverBtn = document.getElementById('volverBtn');
+    volverBtn.addEventListener('click', () => {
+        window.location.href = '/web/contenido.html';
+    });
+
+    // PARA TI RUBEN
+    const loadingIcon = document.getElementById('loadingIcon');
+    setTimeout(() => {
+        loadingIcon.style.display = 'none';
+    }, 1000);
+</script>
+
+</body>
+</html>

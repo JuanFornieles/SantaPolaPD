@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+
+
+
+
+<HTML>
+<HTML LANG="ES">
+    <LINK REL="icon" TYPE="image/png" HREF="/errores/santapola.png">
+
+<HEAD>
+    <META CHARSET="UTF-8">
+    <TITLE>Spoilers</TITLE>
+    <STYLE>
+        BODY {
+            MARGIN: 0;
+            PADDING: 2REM;
+            BACKGROUND-COLOR: #ffffff;
+            FONT-FAMILY: Verdana, sans-serif;
+            COLOR: #000000;
+            POSITION: relative;
+        }
+
+        .top-bar {
+            DISPLAY: flex;
+            ALIGN-ITEMS: center;
+            GAP: 10px;
+            MARGIN-BOTTOM: 2rem;
+        }
+
+        .top-bar img {
+            WIDTH: 40px;
+            HEIGHT: 40px;
+        }
+
+        .top-bar span {
+            FONT-WEIGHT: bold;
+            FONT-SIZE: 1.2rem;
+        }
+
+        .server-img {
+            DISPLAY: block;
+            MARGIN: 1rem auto 0 auto;
+            MAX-WIDTH: 400px;
+            WIDTH: 100%;
+            BORDER-RADIUS: 10px;
+        }
+
+        .discord-contact {
+            TEXT-ALIGN: center;
+            FONT-SIZE: 1rem;
+            MARGIN-TOP: 1rem;
+        }
+
+        .botonActivo {
+            POSITION: absolute;
+            TOP: 20px;
+            RIGHT: 20px;
+            WIDTH: 50px;
+            HEIGHT: 50px;
+            CURSOR: pointer;
+            BORDER-RADIUS: 5px;
+            BORDER: 2px solid #27ae60;
+            BACKGROUND-COLOR: #2ecc71;
+            DISPLAY: flex;
+            ALIGN-ITEMS: center;
+            JUSTIFY-CONTENT: center;
+        }
+
+        .botonActivo img {
+            WIDTH: 30px;
+            HEIGHT: 30px;
+        }
+    </STYLE>
+</HEAD>
+<BODY>
+
+    <DIV CLASS="botonActivo" ID="volverBtn">
+        <IMG SRC="/accesorios/volver.png" ALT="Volver">
+    </DIV>
+
+    <DIV CLASS="top-bar">
+        <IMG SRC="/errores/gira.gif" ALT="Cargando..." ID="loadingIcon">
+
+        <SPAN>Sobre Nosotros</SPAN>
+
+        <IMG SRC="/errores/gira.gif" ALT="Imagen cargando" ID="mainImage">
+    </DIV>
+
+    <DIV CLASS="discord-contact">
+        Información de spoilers.
+    </DIV>
+
+    <DIV STYLE="TEXT-ALIGN: center; MARGIN-TOP: 1REM;">
+        <IMG SRC="" ALT="Spoiler1">
+        <IMG SRC="" ALT="Spoiler2">
+        <IMG SRC="" ALT="Spoiler3">
+        <IMG SRC="" ALT="Spoiler4">
+        <IMG SRC="" ALT="Spoiler5">
+        <IMG SRC="" ALT="Spoiler6">
+    </DIV>
+
+    <IMG SRC="/imagenes/cec/santapola.png" ALT="Servidor" CLASS="server-img">
+
+<SCRIPT>
+    var finalImgSrc = "/errores/image.png";
+    var mainImage = document.getElementById('mainImage');
+    var img = new Image();
+    img.src = finalImgSrc;
+    img.onload = function() {
+        mainImage.src = finalImgSrc;
+    };
+
+    var volverBtn = document.getElementById('volverBtn');
+    volverBtn.addEventListener('click', function() {
+        window.location.href = 'contenido.html';
+    });
+
+    var loadingIcon = document.getElementById('loadingIcon');
+    setTimeout(function() {
+        loadingIcon.style.display = 'none';
+    }, 1000);
+</SCRIPT>
+
+</BODY>
+</HTML>
