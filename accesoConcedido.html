@@ -7,19 +7,67 @@
   <style>
     body {
       margin: 0;
-      height: 100vh;
       font-family: Verdana, sans-serif;
-      background: white;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      min-height: 100vh;
+      background: white;
     }
 
+    /* Sidebar */
+    .sidebar {
+      width: 50px;
+      background: #eee;
+      transition: width 0.3s;
+      overflow: hidden;
+      height: 100vh;
+      position: fixed;
+    }
+
+    .sidebar:hover {
+      width: 200px;
+    }
+
+    .sidebar button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .sidebar button.active {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .sidebar button span {
+      margin-left: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .sidebar:hover button span {
+      opacity: 1;
+    }
+
+    /* Contenido principal */
+    .main {
+      margin-left: 50px;
+      padding: 20px;
+      flex: 1;
+    }
+
+    /* Tarjeta usuario */
     .card {
       text-align: center;
+      margin-bottom: 20px;
     }
 
-    img {
+    .card img {
       width: 120px;
       height: 120px;
       object-fit: cover;
@@ -27,67 +75,122 @@
     }
 
     #error {
-      margin-top: 10px;
-      font-size: 12px;
       color: red;
+      font-size: 12px;
     }
+
+    #textoNotas {
+      margin-top: 10px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      min-height: 50px;
+      background: #f9f9f9;
+    }
+
   </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <button id="notasBtn">📒<span>Cuaderno</span></button>
+  </div>
+
+  <div class="main">
+    <!-- Tarjeta usuario -->
+    <div class="card">
+      <img id="foto" alt="Foto de perfil">
+      <h2 id="nombre"></h2>
+      <div id="error"></div>
+    </div>
+
+    <h3>Notas</h3>
+    <div id="textoNotas"></div>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    // 🔐 Config Firebase nuevo proyecto
     const firebaseConfig = {
       apiKey: "AIzaSyCm0Qs37XjolZzhPrA8Yg5GPHdRe081rvw",
       authDomain: "santapolapd.firebaseapp.com",
       projectId: "santapolapd",
       storageBucket: "santapolapd.firebasestorage.app",
       messagingSenderId: "20230073687",
-      appId: "1:20230073687:web:f3b86467705cad8380a212",
-      measurementId: "G-BGXRW3Y2H9"
+      appId: "1:20230073687:web:f3b86467705cad8380a212"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
 
-    // ID del documento que contiene nombre/foto
-    const docId = "usuario_prueba"; // lo defines tú
+    let uid = null;
 
-    async function cargarDatos() {
+    // Detectar usuario logueado
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        document.getElementById("error").textContent = "No hay sesión iniciada";
+        return;
+      }
+
+      uid = user.uid;
+
+      // Cargar nombre + foto
       try {
-        const ref = doc(db, "usuarios", docId);
-        const snap = await getDoc(ref);
+        const userRef = doc(db, "usuarios", uid);
+        const snap = await getDoc(userRef);
 
         if (!snap.exists()) {
-          document.getElementById("error").textContent =
-            "Documento no encontrado: " + docId;
+          document.getElementById("error").textContent = "Documento de usuario no encontrado";
           return;
         }
 
         const data = snap.data();
-
-        document.getElementById("nombre").textContent =
-          data.nombre ?? "Nombre no definido";
-
-        if (data.foto) {
-          const img = document.getElementById("foto");
-          img.src = data.foto;
-        }
+        document.getElementById("nombre").textContent = data.nombre ?? "Nombre no definido";
+        if (data.foto) document.getElementById("foto").src = data.foto;
 
       } catch (e) {
         document.getElementById("error").textContent = e.message;
       }
-    }
+    });
 
-    cargarDatos();
+    // Botón notas
+    const notasBtn = document.getElementById("notasBtn");
+    const textoNotas = document.getElementById("textoNotas");
+
+    notasBtn.addEventListener("click", async () => {
+      if (!uid) return;
+
+      // Cambiar color a verde
+      notasBtn.classList.add("active");
+
+      // Pedir nota
+      const texto = prompt("Escribe tu nota:");
+      if (!texto) return;
+
+      try {
+        // Añadir nota a Firestore
+        await addDoc(collection(db, "Notas"), {
+          uid: uid,
+          texto: texto,
+          fecha: new Date()
+        });
+
+        // Mostrar nota en la página
+        const p = document.createElement("p");
+        p.textContent = texto;
+        textoNotas.appendChild(p);
+
+      } catch (e) {
+        console.error(e);
+        alert("Error guardando nota");
+      }
+    });
   </script>
-</head>
 
-<body>
-  <div class="card">
-    <img id="foto" alt="Foto de perfil">
-    <h2 id="nombre"></h2>
-    <div id="error"></div>
-  </div>
 </body>
 </html>
