@@ -1,32 +1,34 @@
-<!DOCTYPE HTML>
-<HTML LANG="ES">
-<HEAD>
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<HTML>
+<HTML LANG="ES">    <HEAD>
     <META CHARSET="UTF-8">
     <META NAME="VIEWPORT" CONTENT="WIDTH=device-width, INITIAL-SCALE=1.0">
-    <TITLE>Santa Pola PD</TITLE>
+    <TITLE>RolePlay Game</TITLE>
     <LINK REL="ICON" TYPE="image/png" HREF="/errores/santapola.png">
     <LINK REL="STYLESHEET" HREF="styles.css">
 </HEAD>
 <BODY>
-    <!-- Header iframe -->
     <IFRAME SRC="header.html" CLASS="header-iframe" FRAMEBORDER="0" ID="headerFrame"></IFRAME>
 
-    <!-- Barra de separación -->
     <DIV CLASS="header-separator"></DIV>
 
-    <!-- Contenedor del contenido -->
     <DIV CLASS="content-wrapper">
         <IFRAME SRC="contenido.html" CLASS="content-iframe" FRAMEBORDER="0" ID="contentFrame"></IFRAME>
     </DIV>
 
     <SCRIPT>
-        // Función para cargar contenido en el iframe
         function loadContent(url) {
             var iframe = document.getElementById('contentFrame');
             iframe.src = url;
         }
 
-        // Escucha mensajes desde el header
         window.addEventListener('message', function(event) {
             if (event.data === 'contacto') {
                 loadContent('contacto.html');
@@ -34,6 +36,8 @@
                 loadContent('sobrenosotros.html');
             } else if (event.data === 'spoilers') {
                 loadContent('spoilers.html');
+            } else if (event.data === 'iniciarsesion') {
+                loadContent('inicioSesion.html');
             }
         });
     </SCRIPT>
