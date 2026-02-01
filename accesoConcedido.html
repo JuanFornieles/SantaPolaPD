@@ -4,42 +4,6 @@
   <meta charset="UTF-8">
   <title>Acceso concedido</title>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZ4CrFAqJ6FbVq-KUtFAOtlqqGfEAggTk",
-      authDomain: "appseducativas-aaef5.firebaseapp.com",
-      projectId: "appseducativas-aaef5",
-      storageBucket: "appseducativas-aaef5.firebasestorage.app",
-      messagingSenderId: "384032695350",
-      appId: "1:384032695350:web:c9e3fa6ada6103b57da497"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        // Si no hay sesión, fuera
-        window.location.href = "login.html";
-        return;
-      }
-
-      const ref = doc(db, "usuarios", user.uid);
-      const snap = await getDoc(ref);
-
-      if (snap.exists()) {
-        const data = snap.data();
-        document.getElementById("nombre").textContent = data.nombre || "Sin nombre";
-        document.getElementById("foto").src = data.foto || "";
-      }
-    });
-  </script>
-
   <style>
     body {
       margin: 0;
@@ -60,14 +24,74 @@
       height: 120px;
       object-fit: cover;
       border: 1px solid black;
+      display: none;
+    }
+
+    #error {
+      margin-top: 10px;
+      font-size: 12px;
     }
   </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZ4CrFAqJ6FbVq-KUtFAOtlqqGfEAggTk",
+      authDomain: "appseducativas-aaef5.firebaseapp.com",
+      projectId: "appseducativas-aaef5",
+      storageBucket: "appseducativas-aaef5.firebasestorage.app",
+      messagingSenderId: "384032695350",
+      appId: "1:384032695350:web:c9e3fa6ada6103b57da497"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        document.getElementById("error").textContent = "No hay sesión iniciada";
+        return;
+      }
+
+      try {
+        const ref = doc(db, "usuarios", user.uid);
+        const snap = await getDoc(ref);
+
+        if (!snap.exists()) {
+          document.getElementById("error").textContent =
+            "Documento no existe: usuarios/" + user.uid;
+          return;
+        }
+
+        const data = snap.data();
+
+        // Nombre
+        document.getElementById("nombre").textContent =
+          data.nombre ?? "Nombre no definido";
+
+        // Foto
+        if (data.foto) {
+          const img = document.getElementById("foto");
+          img.src = data.foto;
+          img.style.display = "block";
+        }
+
+      } catch (e) {
+        document.getElementById("error").textContent = e.message;
+      }
+    });
+  </script>
 </head>
 
 <body>
   <div class="card">
-    <img id="foto" alt="Foto de perfil">
+    <img id="foto">
     <h2 id="nombre"></h2>
+    <div id="error"></div>
   </div>
 </body>
 </html>
