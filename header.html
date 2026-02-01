@@ -52,6 +52,7 @@
         <BUTTON ID="sobreBtn">Sobre Nosotros</BUTTON>
         <BUTTON ID="spoilersBtn">Spoilers</BUTTON>
         <BUTTON ID="InicioSesionBtn">Iniciar Sesión</BUTTON>
+        <BUTTON ID="NuestroEquipoBtn">Equipo</BUTTON>
     </DIV>
 
     <SCRIPT>
@@ -69,6 +70,10 @@
 
         document.getElementById('InicioSesionBtn').addEventListener('click', function() {
             window.parent.postMessage('iniciarsesion', '*');
+        });
+        
+        document.getElementById('NuestroEquipoBtn').addEventListener('click', function() {
+            window.parent.postMessage('nuestroequipo', '*');
         });
     </SCRIPT>
 </BODY>
