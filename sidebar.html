@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Barra lateral con notas</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Verdana, sans-serif;
+      display: flex;
+    }
+
+    /* Barra lateral */
+    .sidebar {
+      width: 50px; /* colapsada */
+      background: #eee;
+      transition: width 0.3s;
+      overflow: hidden;
+      height: 100vh;
+      position: fixed;
+    }
+
+    .sidebar:hover {
+      width: 200px; /* se despliega */
+    }
+
+    .sidebar button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .sidebar button.active {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .sidebar button span {
+      margin-left: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .sidebar:hover button span {
+      opacity: 1;
+    }
+
+    /* Contenido principal */
+    .main {
+      margin-left: 50px;
+      padding: 20px;
+      flex: 1;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <button id="notasBtn">
+      📒<span>Cuaderno</span>
+    </button>
+  </div>
+
+  <div class="main">
+    <h1>Bienvenido</h1>
+    <div id="textoNotas"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // 🔐 Config Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCm0Qs37XjolZzhPrA8Yg5GPHdRe081rvw",
+      authDomain: "santapolapd.firebaseapp.com",
+      projectId: "santapolapd",
+      storageBucket: "santapolapd.firebasestorage.app",
+      messagingSenderId: "20230073687",
+      appId: "1:20230073687:web:f3b86467705cad8380a212"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let uid = null;
+
+    // Detectar usuario logueado
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        alert("No hay sesión iniciada");
+        return;
+      }
+      uid = user.uid;
+    });
+
+    const notasBtn = document.getElementById("notasBtn");
+
+    notasBtn.addEventListener("click", async () => {
+      if (!uid) return;
+
+      // Cambiar color a verde
+      notasBtn.classList.add("active");
+
+      // Pedir nota
+      const texto = prompt("Escribe tu nota:");
+
+      if (!texto) return;
+
+      try {
+        // Crear colección "Notas" si no existe, y añadir nota
+        await addDoc(collection(db, "Notas"), {
+          uid: uid,
+          texto: texto,
+          fecha: new Date()
+        });
+
+        alert("Nota guardada ✅");
+
+      } catch (e) {
+        console.error(e);
+        alert("Error guardando nota");
+      }
+    });
+  </script>
+
+</body>
+</html>
