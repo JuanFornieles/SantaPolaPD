@@ -5,7 +5,10 @@ const firebaseConfig = {
   apiKey: "AIzaSyAZ4CrFAqJ6FbVq-KUtFAOtlqqGfEAggTk",
   authDomain: "appseducativas-aaef5.firebaseapp.com",
   projectId: "appseducativas-aaef5",
-  appId: "1:384032695350:web:c9e3fa6ada6103b57da497"
+  storageBucket: "appseducativas-aaef5.firebasestorage.app",
+  messagingSenderId: "384032695350",
+  appId: "1:384032695350:web:c9e3fa6ada6103b57da497",
+  measurementId: "G-L0409XGGY6"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -18,9 +21,9 @@ document.getElementById("loginBtn").addEventListener("click", () => {
 
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
-      alert("Login correcto");
+      window.location.href = "accesoConcedido.html";
     })
-    .catch(err => {
-      errorDiv.textContent = err.message;
+    .catch(() => {
+      errorDiv.textContent = "Email o contraseña incorrectos";
     });
 });
