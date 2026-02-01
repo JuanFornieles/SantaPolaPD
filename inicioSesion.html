@@ -1,1 +1,50 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+
+  <script type="module" src="app.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Verdana, sans-serif;
+      background: white;
+    }
+
+    .login {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 250px;
+    }
+
+    input, button {
+      font-family: Verdana, sans-serif;
+      padding: 8px;
+      border: 1px solid black;
+      background: white;
+      color: black;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button id="loginBtn">Entrar</button>
+    <div id="error"></div>
+  </div>
+
+</body>
+</html>
