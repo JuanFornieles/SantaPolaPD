@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Colección "usuarios"
+    match /usuarios/{userId} {
+      // Solo puede leer/escribir si está autenticado y coincide con su UID
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Si quieres otras colecciones abiertas o privadas,
+    // puedes añadir más reglas aquí.
+  }
+}
