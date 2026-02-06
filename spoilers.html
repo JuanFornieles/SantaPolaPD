@@ -1,134 +1,183 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Spoilers</title>
 
+    <link rel="icon" type="image/png" href="/errores/santapola.png">
 
-
-
-
-
-
-
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-
-
-
-
-<HTML>
-<HTML LANG="ES">
-    <LINK REL="icon" TYPE="image/png" HREF="/errores/santapola.png">
-
-<HEAD>
-    <META CHARSET="UTF-8">
-    <TITLE>Spoilers</TITLE>
-    <STYLE>
-        BODY {
-            MARGIN: 0;
-            PADDING: 2REM;
-            BACKGROUND-COLOR: #ffffff;
-            FONT-FAMILY: Verdana, sans-serif;
-            COLOR: #000000;
-            POSITION: relative;
+    <style>
+        * {
+            box-sizing: border-box;
         }
 
-        .top-bar {
-            DISPLAY: flex;
-            ALIGN-ITEMS: center;
-            GAP: 10px;
-            MARGIN-BOTTOM: 2rem;
+        body {
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            font-family: "Segoe UI", Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #e6ecf2);
+            color: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .top-bar img {
-            WIDTH: 40px;
-            HEIGHT: 40px;
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
         }
 
-        .top-bar span {
-            FONT-WEIGHT: bold;
-            FONT-SIZE: 1.2rem;
-        }
-
-        .server-img {
-            DISPLAY: block;
-            MARGIN: 1rem auto 0 auto;
-            MAX-WIDTH: 400px;
-            WIDTH: 100%;
-            BORDER-RADIUS: 10px;
-        }
-
-        .discord-contact {
-            TEXT-ALIGN: center;
-            FONT-SIZE: 1rem;
-            MARGIN-TOP: 1rem;
-        }
-
+        /* Botón volver */
         .botonActivo {
-            POSITION: absolute;
-            TOP: 20px;
-            RIGHT: 20px;
-            WIDTH: 50px;
-            HEIGHT: 50px;
-            CURSOR: pointer;
-            BORDER-RADIUS: 5px;
-            BORDER: 2px solid #27ae60;
-            BACKGROUND-COLOR: #2ecc71;
-            DISPLAY: flex;
-            ALIGN-ITEMS: center;
-            JUSTIFY-CONTENT: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+            background-color: #2ecc71;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .botonActivo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
         }
 
         .botonActivo img {
-            WIDTH: 30px;
-            HEIGHT: 30px;
+            width: 26px;
+            height: 26px;
         }
-    </STYLE>
-</HEAD>
-<BODY>
 
-    <DIV CLASS="botonActivo" ID="volverBtn">
-        <IMG SRC="/accesorios/volver.png" ALT="Volver">
-    </DIV>
+        /* Barra superior */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
 
-    <DIV CLASS="top-bar">
-        <IMG SRC="/errores/gira.gif" ALT="Cargando..." ID="loadingIcon">
+        .top-bar img {
+            width: 42px;
+            height: 42px;
+        }
 
-        <SPAN>Sobre Nosotros</SPAN>
+        .top-bar span {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
 
-        <IMG SRC="/errores/gira.gif" ALT="Imagen cargando" ID="mainImage">
-    </DIV>
+        /* Texto */
+        .discord-contact {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #555;
+        }
 
-    <DIV CLASS="discord-contact">
+        /* Galería spoilers */
+        .spoilers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .spoilers img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            background-color: #ecf0f1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Imagen servidor */
+        .server-img {
+            display: block;
+            margin: 0 auto;
+            max-width: 420px;
+            width: 100%;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .top-bar span {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="botonActivo" id="volverBtn">
+        <img src="/accesorios/volver.png" alt="Volver">
+    </div>
+
+    <div class="top-bar">
+        <img src="/errores/gira.gif" alt="Cargando..." id="loadingIcon">
+        <span>Sobre Nosotros</span>
+        <img src="/errores/gira.gif" alt="Imagen cargando" id="mainImage">
+    </div>
+
+    <div class="discord-contact">
         Información de spoilers.
-    </DIV>
+    </div>
 
-    <DIV STYLE="TEXT-ALIGN: center; MARGIN-TOP: 1REM;">
-        <IMG SRC="" ALT="Spoiler1">
-        <IMG SRC="" ALT="Spoiler2">
-        <IMG SRC="" ALT="Spoiler3">
-        <IMG SRC="" ALT="Spoiler4">
-        <IMG SRC="" ALT="Spoiler5">
-        <IMG SRC="" ALT="Spoiler6">
-    </DIV>
+    <div class="spoilers">
+        <img src="" alt="Spoiler 1">
+        <img src="" alt="Spoiler 2">
+        <img src="" alt="Spoiler 3">
+        <img src="" alt="Spoiler 4">
+        <img src="" alt="Spoiler 5">
+        <img src="" alt="Spoiler 6">
+    </div>
 
-    <IMG SRC="/imagenes/cec/santapola.png" ALT="Servidor" CLASS="server-img">
+    <img src="/imagenes/cec/santapola.png" alt="Servidor" class="server-img">
 
-<SCRIPT>
+</div>
+
+<script>
     var finalImgSrc = "/errores/image.png";
-    var mainImage = document.getElementById('mainImage');
+    var mainImage = document.getElementById("mainImage");
     var img = new Image();
     img.src = finalImgSrc;
-    img.onload = function() {
+    img.onload = function () {
         mainImage.src = finalImgSrc;
     };
 
-    var volverBtn = document.getElementById('volverBtn');
-    volverBtn.addEventListener('click', function() {
-        window.location.href = 'contenido.html';
+    var volverBtn = document.getElementById("volverBtn");
+    volverBtn.addEventListener("click", function () {
+        window.location.href = "contenido.html";
     });
 
-    var loadingIcon = document.getElementById('loadingIcon');
-    setTimeout(function() {
-        loadingIcon.style.display = 'none';
+    var loadingIcon = document.getElementById("loadingIcon");
+    setTimeout(function () {
+        loadingIcon.style.display = "none";
     }, 1000);
-</SCRIPT>
+</script>
 
-</BODY>
-</HTML>
+</body>
+</html>
+>
